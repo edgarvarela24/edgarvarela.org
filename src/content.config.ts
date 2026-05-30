@@ -9,11 +9,15 @@ const blog = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
-			description: z.string(),
+		        description: z.string().optional(),
 			// Transform string to Date object
-			pubDate: z.coerce.date(),
-			updatedDate: z.coerce.date().optional(),
-			heroImage: z.optional(image()),
+			created: z.coerce.date(),
+			updated: z.coerce.date().optional(),
+		        status: z.enum(['finished', 'in-progress', 'notes']).default('finished'),
+		        confidence: z.enum(['certain', 'likely', 'possible', 'unlikely', 'speculative']).default('likely'),
+		        importance: z.number().min(1).max(10).default(5),
+		        tags: z.array(z.string()).default([]),
+		        heroImage: z.optional(image()),
 		}),
 });
 
